@@ -12,9 +12,19 @@ CREATE TABLE events(
     description VARCHAR(200), 
     category VARCHAR(100), 
     location VARCHAR(100), 
-    date TIMESTAP NOT NULL, 
+    date TIMESTAMP NOT NULL, 
     image_url VARCHAR(500), 
     user_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(), 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE rsvps (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  event_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 );
