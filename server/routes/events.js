@@ -15,6 +15,10 @@ router.get('/', async (req, res) => {
         const getEvents = await pool.query(
             'SELECT * FROM events ORDER BY date ASC'
         );
+        if(getEvents.rows.length < 0)
+        {
+            return res.status(404).json({message: 'No events upcoming!'})
+        }
         res.status(200).json(getEvents.rows);
     } catch (err) {
         console.error(err);
@@ -94,25 +98,24 @@ router.put('/:id', authenticateToken, async (req, res) => {
 
 
 //delete an event
-router.delete('/:id', authenticateToken, async(req,res) => {
+router.delete('/:id', authenticateToken, async (req, res) => {
 
     try {
 
-        const { id } = req.params; 
-    const deleteEvent = await pool.query(
-        'DELETE FROM events WHERE id = $1 AND user_id = $2', [id, req.user.userId]
-    );
+        const { id } = req.params;
+        const deleteEvent = await pool.query(
+            'DELETE FROM events WHERE id = $1 AND user_id = $2', [id, req.user.userId]
+        );
 
-   return res.status(200).json({ message: 'Event deleted successfully' });
-        
-    } catch (err) 
-    {
-         console.error(err);
+        return res.status(200).json({ message: 'Event deleted successfully' });
+
+    } catch (err) {
+        console.error(err);
         res.status(500).json({ message: 'Server error' });
     }
-    
 
-}); 
+
+});
 
 
 module.exports = router;

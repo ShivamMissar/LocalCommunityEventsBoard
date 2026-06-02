@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const pool = require('./db');
 const authRoutes = require('./routes/auth');
+const eventRoutes = require('./routes/events');
 
 dotenv.config(); 
 const app = express(); 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 // routes after
 app.use('/auth', authRoutes);
+app.use('/events', eventRoutes);
 
 
 const PORT = process.env.PORT;
