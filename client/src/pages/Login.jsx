@@ -13,16 +13,19 @@ function Login() {
     const [password, setPassword] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     async function handleLogin() {
         try {
             const response = await axios.post('http://localhost:5000/auth/login', {
                 email, password
             });
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('name', response.data.name);
             setSuccessMessage("Logging in Redirecting...");
             setTimeout(() => navigate('/'), 1500);
         } catch (err) {
-            setErrorMessage('Registration failed. Please try again.');
+            setErrorMessage('Login failed. Please try again.');
         }
     }
     return (
