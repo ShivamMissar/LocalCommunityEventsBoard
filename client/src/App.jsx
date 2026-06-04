@@ -3,12 +3,13 @@ import './App.css';
 
 
 import Register from './pages/Register';
+import Login from './pages/Login';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<p>Home</p>} />
-      <Route path="/login" element={<p>Login</p>} />
+      <Route path="/login" element={<Login/>} />
       <Route path="/register" element={<Register/>} />
       <Route path="/dashboard" element={<p>Dashboard</p>} />
       <Route path="/create" element={<p>Create Event</p>} />
