@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
         const getEvents = await pool.query(
             'SELECT * FROM events ORDER BY date ASC'
         );
-        if(getEvents.rows.length < 0)
+        if(getEvents.rows.length === 0)
         {
             return res.status(404).json({message: 'No events upcoming!'})
         }

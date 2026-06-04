@@ -1,0 +1,88 @@
+import { useState } from "react";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+function Register() {
+  const navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  async function handleRegister() {
+    try {
+      const response = await axios.post('http://localhost:5000/auth/register', {
+        name, email, password
+      });
+      setSuccessMessage("Account created! Redirecting...");
+      setTimeout(() => navigate('/login'), 1500);
+    } catch (err) {
+      setErrorMessage('Registration failed. Please try again.');
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4"
+      style={{ background: 'linear-gradient(135deg, #f953c6 0%, #b91d73 50%, #f9a825 100%)' }}
+    >
+      <div className="bg-white rounded-3xl p-10 w-full max-w-md shadow-2xl flex flex-col gap-5">
+        <h1 className="text-3xl font-extrabold text-gray-800 text-center">Create Account</h1>
+        <p className="text-center text-gray-400 text-sm -mt-3">Join your local community</p>
+
+        {errorMessage && <p className="text-red-500 text-sm text-center bg-red-50 py-2 rounded-xl">{errorMessage}</p>}
+        {successMessage && <p className="text-green-500 text-sm text-center bg-green-50 py-2 rounded-xl">{successMessage}</p>}
+
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-600">Full Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="John Smith"
+            className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-pink-400 transition-colors text-gray-800"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-600">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-pink-400 transition-colors text-gray-800"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-600">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-pink-400 transition-colors text-gray-800"
+          />
+        </div>
+
+        <button
+          onClick={handleRegister}
+          className="w-full py-3 rounded-xl font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
+          style={{ background: 'linear-gradient(135deg, #f953c6, #b91d73)' }}
+        >
+          Create Account
+        </button>
+
+        <p className="text-center text-sm text-gray-400">
+          Already have an account?{' '}
+          <span onClick={() => navigate('/login')} className="text-pink-500 font-medium cursor-pointer hover:underline">
+            Sign in
+          </span>
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export default Register;
