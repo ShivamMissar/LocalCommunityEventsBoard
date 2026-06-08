@@ -15,49 +15,53 @@ function Navbar() {
   className="flex justify-between items-center px-8 py-4 shadow-lg"
   style={{ background: '#1a0533' }}
 >
-           <h1 className="font-extrabold text-xl cursor-pointer text-white" onClick={() => navigate('/')}>
-  EventBoard
+           <h1 className="font-extrabold text-xl cursor-pointer text-white hover:text-pink-200" onClick={() => navigate('/')}>
+  Locana 
+
 </h1>
-            <div className="flex gap-4">
-                {/* if token exists show Dashboard + Logout, otherwise show Login + Register */}
-                {token ? (
-                    <>
-                        <button
-                            onClick={() => navigate('/dashboard')}
-                            className="border-2 border-white text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-pink-500 transition-all"
-                        >
-                            Dashboard
-                        </button>
 
-                           <button
-                            onClick={() => navigate('/create')}
-                            className="border-2 border-white text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-pink-500 transition-all"
-                        >
-                            Create Event
-                        </button>
-                        <button
-                            onClick={handleLogout}
-                           className="border-2 border-white text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-pink-500 transition-all">
-                            Logout
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <button
-                            onClick={() => navigate('/login')}
-                           className="border-2 border-white text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-pink-500 transition-all">
-                            Login
-                        </button>
-                        <button
-                            onClick={() => navigate('/register')}
-                           className="border-2 border-white text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-pink-500 transition-all">
-                            Register
-                        </button>
-                    </>
-                )}
+         <div className="flex items-center gap-6">
+    {token ? (
+        <>
+            <button
+                onClick={() => navigate('/dashboard')}
+                className="text-white font-medium hover:text-pink-200 transition-colors duration-200"
+            >
+                My Events
+            </button>
 
+            <button
+                onClick={() => navigate('/create')}
+                className="bg-white text-pink-600 px-5 py-2 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
+            >
+                + Create Event
+            </button>
 
-            </div>
+            <button
+                onClick={handleLogout}
+                className="text-white font-medium hover:text-red-200 transition-colors duration-200"
+            >
+                Logout
+            </button>
+        </>
+    ) : (
+        <>
+            <button
+                onClick={() => navigate('/login')}
+                className="text-white font-medium hover:text-pink-200 transition-colors duration-200"
+            >
+                Login
+            </button>
+
+            <button
+                onClick={() => navigate('/register')}
+                className="bg-white text-pink-600 px-5 py-2 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
+            >
+                Register
+            </button>
+        </>
+    )}
+</div>
         </nav>
     );
 }

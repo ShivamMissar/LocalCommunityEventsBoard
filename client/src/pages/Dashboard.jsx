@@ -7,7 +7,7 @@ import Navbar from "../components/Navbar";
 function Dashboard() {
 
     const [events, setEvents] = useState([]);
-   
+
     const currentDate = Date.UTC.now;
     const token = localStorage.getItem('token');
     const name = localStorage.getItem('name');
@@ -15,47 +15,64 @@ function Dashboard() {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
-useEffect(() => {
-  async function fetchUserEvents() {
-    try {
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-      const response = await axios.get('http://localhost:5000/events/my-events', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setEvents(response.data);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  fetchUserEvents();
-}, []);
+    useEffect(() => {
+        async function fetchUserEvents() {
+            try {
+                if (!token) {
+                    navigate('/login');
+                    return;
+                }
+                const response = await axios.get('http://localhost:5000/events/my-events', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setEvents(response.data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchUserEvents();
+    }, []);
 
 
-async function deleteEvent(id)
-{
-    try {
+    async function deleteEvent(id) {
+        try {
             const response = await axios.delete(`http://localhost:5000/events/${id}`, {
-            headers: { Authorization: `Bearer ${token}` }
-            
-        });
-        setSuccessMessage("Event successfully deleted"); 
-        navigate('/');
+                headers: { Authorization: `Bearer ${token}` }
+
+            });
+            setSuccessMessage("Event successfully deleted");
+            navigate('/');
         } catch (err) {
-            setErrorMessage("Something went wrong, try again"); 
+            setErrorMessage("Something went wrong, try again");
             console.error(err);
         }
-        
-}
+
+    }
+
+    // async function updateEvent(id)
+    // {
+    //     try {
+    //             const response = await axios.update(`http://localhost:5000/events/${id}`, {
+    //             headers: { Authorization: `Bearer ${token}` }
+
+    //         });
+    //         setSuccessMessage("Event successfully updated"); 
+    //         navigate('/');
+    //         } catch (err) {
+    //             setErrorMessage("Something went wrong, try again"); 
+    //             console.error(err);
+    //         }
+
+    // }
 
 
-    
+
 
     return (
 
         <div>
+            {errorMessage && <p className="text-red-500 text-sm text-center bg-red-50 py-2 rounded-xl">{errorMessage}</p>}
+            {successMessage && <p className="text-green-500 text-sm text-center bg-green-50 py-2 rounded-xl">{successMessage}</p>}
             {/* /All user events */}
             <div className="min-h-screen" style={{ background: '#fff5f7' }}>
                 <Navbar />
@@ -80,13 +97,20 @@ async function deleteEvent(id)
                                 <p className="text-gray-600 text-sm mt-3 line-clamp-2">{event.description}</p>
 
 
-                                <button className="border-2text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-pink-500 transition-all" onClick={() => deleteEvent(event.id)} >
-                                    Delete
-                                </button>
-                    
-                                <button className="border-2 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-pink-500 transition-all">
-                                    Update
-                                </button>
+                                <div className="flex gap-3 mt-4">
+                                    <button
+                                        onClick={() => deleteEvent(event.id)}
+                                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition duration-200 shadow-md hover:shadow-lg"
+                                    >
+                                        Delete
+                                    </button>
+
+                                    <button
+                                        className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition duration-200 shadow-md hover:shadow-lg"
+                                    >
+                                        Update
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>
