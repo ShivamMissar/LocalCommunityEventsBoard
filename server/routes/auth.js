@@ -85,6 +85,36 @@ router.post('/login', async(req, res) => {
     }
 }); 
 
+
+router.get('/user', async(req,res) => {
+
+     try{
+
+        const{email} = req.body;
+
+        //check if email is registered
+
+        const find_user = await pool.query(
+            'SELECT * FROM users WHERE email = $1',
+            [email]
+        ); 
+
+        if(find_user.rows.length === 0)
+        {
+            return res.status(400).json({message: 'user not found'});  
+        }
+
+        const userInfo = find_user.rows[0];
+        return res.status(200).json({name:userInfo.name});  
+
+    }catch(err)
+    {
+        console.error(err);
+        res.status(500).json({message: 'Server Error'});  
+    }
+});
+
+
 module.exports = router; 
 
 
