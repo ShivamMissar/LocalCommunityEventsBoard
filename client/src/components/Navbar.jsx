@@ -28,6 +28,13 @@ function Navbar() {
                         >
                             Dashboard
                         </button>
+
+                           <button
+                            onClick={() => navigate('/create')}
+                            className="border-2 border-white text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-pink-500 transition-all"
+                        >
+                            Create Event
+                        </button>
                         <button
                             onClick={handleLogout}
                            className="border-2 border-white text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-pink-500 transition-all">

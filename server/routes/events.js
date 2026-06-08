@@ -26,11 +26,27 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/my-events', authenticateToken, async (req, res) => {
+    try {
+
+        const userId = req.user.userId; 
+
+        const getEvents = await pool.query(
+            'SELECT * FROM events WHERE user_id = $1 ORDER BY date ASC', [userId]
+        );
+        if(getEvents.rows.length === 0)
+        {
+            return res.status(404).json({message: 'No events upcoming!'})
+        }
+        res.status(200).json(getEvents.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 // get a single event by searching
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-
-
     try {
         const findEvent = await pool.query(
             'SELECT * FROM events WHERE id = $1', [id]
