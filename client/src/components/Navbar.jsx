@@ -23,6 +23,13 @@ function Navbar() {
          <div className="flex items-center gap-6">
     {token ? (
         <>
+        <button
+                onClick={() => navigate('/')}
+                className="text-white font-medium hover:text-pink-200 transition-colors duration-200"
+            >
+                Home
+            </button>
+
             <button
                 onClick={() => navigate('/dashboard')}
                 className="text-white font-medium hover:text-pink-200 transition-colors duration-200"

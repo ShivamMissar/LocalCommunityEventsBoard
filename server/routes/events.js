@@ -64,8 +64,6 @@ router.get('/:id', async (req, res) => {
 
 });
 
-
-
 //post a event 
 router.post('/', authenticateToken, async (req, res) => {
 
@@ -129,6 +127,25 @@ router.delete('/:id', authenticateToken, async (req, res) => {
         console.error(err);
         res.status(500).json({ message: 'Server error' });
     }
+});
+
+//rsvp to an event 
+
+router.post('/:id/rsvp', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;  // this is the event_id
+    const userId = req.user.userId;
+
+    const saveRsvp = await pool.query(
+      'INSERT INTO rsvps (user_id, event_id) VALUES ($1, $2) RETURNING *',
+      [userId, id]
+    );
+
+    return res.status(201).json({ message: 'RSVP successful!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 
