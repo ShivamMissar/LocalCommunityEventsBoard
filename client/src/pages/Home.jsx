@@ -254,7 +254,7 @@ function Home() {
           onClick={() => navigate("/register")}
           className="bg-white text-pink-600 font-bold px-10 py-4 rounded-full hover:opacity-90 transition-all shadow-lg text-lg"
         >
-          Join EventBoard Free →
+          Join Locana for Free →
         </button>
       </div>
 
@@ -273,6 +273,7 @@ function Home() {
               <span className="text-xs font-semibold bg-pink-100 text-pink-600 px-3 py-1 rounded-full">
                 {event.category}
               </span>
+
               <h2 className="text-lg font-bold text-gray-800 mt-3">
                 {event.title}
               </h2>
@@ -288,6 +289,7 @@ function Home() {
               <p className="text-gray-600 text-sm mt-3 line-clamp-2">
                 {event.description}
               </p>
+             <p className="text-pink-500 text-sm font-semibold mt-2">🎟️ {event.rsvp_count} going</p>
             </div>
           ))}
         </div>

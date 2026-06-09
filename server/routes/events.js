@@ -13,7 +13,7 @@ const authenticateToken = require('../middleware/auth');
 router.get('/', async (req, res) => {
     try {
         const getEvents = await pool.query(
-            'SELECT * FROM events ORDER BY date ASC'
+            'SELECT events.*, COUNT(rsvps.id) as rsvp_count FROM events LEFT JOIN rsvps ON events.id = rsvps.event_id GROUP BY events.id ORDER BY date ASC'
         );
         if(getEvents.rows.length === 0)
         {
