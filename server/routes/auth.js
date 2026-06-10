@@ -4,7 +4,7 @@ const pool = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-router.post('/register', async (req, res) => {
+router.post(`${import.meta.env.VITE_API_URL}/register`, async (req, res) => {
 
     try {
         const { name, email, password } = req.body;
@@ -40,7 +40,7 @@ router.post('/register', async (req, res) => {
 
 });
 
-router.post('/login', async(req, res) => {
+router.post(`${import.meta.env.VITE_API_URL}/login`, async(req, res) => {
 
     try{
 
@@ -86,7 +86,7 @@ router.post('/login', async(req, res) => {
 }); 
 
 
-router.get('/user', async(req,res) => {
+router.get(`${import.meta.env.VITE_API_URL}/user`, async(req,res) => {
 
      try{
 

@@ -10,7 +10,7 @@ const authenticateToken = require('../middleware/auth');
 // DELETE /events/:id      ← delete event (protected)
 
 //get all events
-router.get('/', async (req, res) => {
+router.get(`${import.meta.env.VITE_API_URL}/`, async (req, res) => {
     try {
         const getEvents = await pool.query(
             'SELECT events.*, COUNT(rsvps.id) as rsvp_count FROM events LEFT JOIN rsvps ON events.id = rsvps.event_id GROUP BY events.id ORDER BY date ASC'
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/my-events', authenticateToken, async (req, res) => {
+router.get(`${import.meta.env.VITE_API_URL}/my-events`, authenticateToken, async (req, res) => {
     try {
 
         const userId = req.user.userId; 
@@ -45,7 +45,7 @@ router.get('/my-events', authenticateToken, async (req, res) => {
     }
 });
 // get a single event by searching
-router.get('/:id', async (req, res) => {
+router.get(`${import.meta.env.VITE_API_URL}/:id`, async (req, res) => {
     const { id } = req.params;
     try {
         const findEvent = await pool.query(
@@ -65,7 +65,7 @@ router.get('/:id', async (req, res) => {
 });
 
 //post a event 
-router.post('/', authenticateToken, async (req, res) => {
+router.post(`${import.meta.env.VITE_API_URL}/`, authenticateToken, async (req, res) => {
 
     try {
         const { title, description, category, location, date, image_url } = req.body;
@@ -87,7 +87,7 @@ router.post('/', authenticateToken, async (req, res) => {
 });
 
 // update the created event by the user
-router.put('/:id', authenticateToken, async (req, res) => {
+router.put(`${import.meta.env.VITE_API_URL}/:id`, authenticateToken, async (req, res) => {
     try {
         const { title, description, category, location, date, image_url } = req.body;
         const { id } = req.params;
@@ -112,7 +112,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
 
 
 //delete an event
-router.delete('/:id', authenticateToken, async (req, res) => {
+router.delete(`${import.meta.env.VITE_API_URL}/:id`, authenticateToken, async (req, res) => {
 
     try {
 
@@ -131,7 +131,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
 
 //rsvp to an event 
 
-router.post('/:id/rsvp', authenticateToken, async (req, res) => {
+router.post(`${import.meta.env.VITE_API_URL}/:id/rsvp`, authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;  // this is the event_id
     const userId = req.user.userId;
