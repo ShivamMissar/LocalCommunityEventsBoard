@@ -48,9 +48,14 @@ function Dashboard() {
         setEditImg('');
         setEditLocation('');
         setEditCategory('');
+    }
 
-
-
+    function getCategoryGradient(category) {
+        if (category === '#Food') return 'linear-gradient(135deg, #f953c6, #b91d73)';
+        if (category === '#Sport') return 'linear-gradient(135deg, #4facfe, #00f2fe)';
+        if (category === '#Music') return 'linear-gradient(135deg, #43e97b, #38f9d7)';
+        if (category === '#Charity') return 'linear-gradient(135deg, #fa709a, #fee140)';
+        return 'linear-gradient(135deg, #f953c6, #f9a825)';
     }
 
     useEffect(() => {
@@ -143,9 +148,10 @@ function Dashboard() {
                     <h2 className="text-2xl font-bold text-gray-800 mb-6">Upcoming Events</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {events.map((event) => (
-                            <div key={event.id} className="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition-all cursor-pointer border-t-4 border-pink-400">
+                            <div key={event.id} className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all">
                                 {editingId === event.id ? (
-                                    <>
+                                    // edit mode - just inputs, no gradient header
+                                    <div className="p-6">
                                         <input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} className="w-full border rounded-xl px-3 py-2 text-sm mb-2" />
                                         <input value={editDescription} onChange={(e) => setEditDescription(e.target.value)} className="w-full border rounded-xl px-3 py-2 text-sm mb-2" />
                                         <input value={editLocation} onChange={(e) => setEditLocation(e.target.value)} className="w-full border rounded-xl px-3 py-2 text-sm mb-2" />
@@ -155,26 +161,28 @@ function Dashboard() {
                                             <button onClick={() => saveEdit(event.id)} className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">Save</button>
                                             <button onClick={cancelEdit} className="bg-gray-400 text-white px-4 py-2 rounded-lg text-sm font-semibold">Cancel</button>
                                         </div>
-                                    </>
+                                    </div>
                                 ) : (
+                                    // view mode - gradient header + content
                                     <>
-                                        <span className="text-xs font-semibold bg-pink-100 text-pink-600 px-3 py-1 rounded-full">{event.category}</span>
-                                        <h2 className="text-lg font-bold text-gray-800 mt-3">{event.title}</h2>
-                                        <p className="text-gray-400 text-sm mt-1">📍 {event.location}</p>
-                                        <p className="text-gray-400 text-sm">📅 {new Date(event.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                                        <p className="text-gray-600 text-sm mt-3 line-clamp-2">{event.description}</p>
-                                        <div className="flex gap-3 mt-4">
-
+                                        <div className="h-16 flex items-center px-6"
+                                            style={{ background: getCategoryGradient(event.category) }}
+                                        >
+                                            <span className="text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">{event.category}</span>
+                                        </div>
+                                        <div className="p-6">
+                                            <h2 className="text-lg font-bold text-gray-800">{event.title}</h2>
+                                            <p className="text-gray-400 text-sm mt-1">📍 {event.location}</p>
+                                            <p className="text-gray-400 text-sm">📅 {new Date(event.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                                            <p className="text-gray-600 text-sm mt-3 line-clamp-2">{event.description}</p>
                                             {new Date(event.date) > new Date() ? (
                                                 <div className="flex gap-3 mt-4">
                                                     <button onClick={() => deleteEvent(event.id)} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold">Delete</button>
                                                     <button onClick={() => startEdit(event)} className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-semibold">Update</button>
                                                 </div>
-                                            ) :
-                                                (<p className="text-gray-400 text-xs mt-4 italic">This event has passed</p>
-                                                )
-                                            }
-
+                                            ) : (
+                                                <p className="text-gray-400 text-xs mt-4 italic">This event has passed</p>
+                                            )}
                                         </div>
                                     </>
                                 )}

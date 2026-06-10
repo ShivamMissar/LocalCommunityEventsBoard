@@ -45,8 +45,7 @@ function CreateEvent() {
         <h1 className="text-3xl font-extrabold text-gray-800 text-center">Create Account</h1>
         <p className="text-center text-gray-400 text-sm -mt-3">Bring your community together!</p>
 
-        {errorMessage && <p className="text-red-500 text-sm text-center bg-red-50 py-2 rounded-xl">{errorMessage}</p>}
-        {successMessage && <p className="text-green-500 text-sm text-center bg-green-50 py-2 rounded-xl">{successMessage}</p>}
+        
 
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium text-gray-600">Event Name</label>
