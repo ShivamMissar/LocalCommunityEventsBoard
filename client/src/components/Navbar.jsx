@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.png';
 
 function Navbar() {
     const navigate = useNavigate();
@@ -15,10 +16,12 @@ function Navbar() {
   className="flex justify-between items-center px-8 py-4 shadow-lg"
   style={{ background: '#1a0533' }}
 >
-           <h1 className="font-extrabold text-xl cursor-pointer text-white hover:text-pink-200" onClick={() => navigate('/')}>
-  Locana 
-
-</h1>
+       <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
+  <img src={logo} alt="Locana logo" className="h-8 w-auto" />
+  <h1 className="font-extrabold text-xl text-white hover:text-pink-200">
+    Locana
+  </h1>
+</div>
 
          <div className="flex items-center gap-6">
     {token ? (
