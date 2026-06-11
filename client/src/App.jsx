@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { Analytics } from '@vercel/analytics/next';
+
 import './App.css';
 
 
@@ -19,7 +19,7 @@ function App() {
       <Route path="/dashboard" element={<Dashboard/>} />
       <Route path="/create" element={<CreateEvent/>} />
       <Route path="/events/:id" element={<EventDetail/>} />
-      <Analytics/>
+     
     </Routes>
   )
 }
