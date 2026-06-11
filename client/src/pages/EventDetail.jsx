@@ -16,7 +16,7 @@ function EventDetail() {
 
     async function fetchEvent() {
         try {
-            const response = await axios.get(`http://localhost:5000/events/${id}`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/events/${id}`);
             setEvent(response.data);
         } catch (err) {
             console.error(err);
@@ -26,7 +26,7 @@ function EventDetail() {
     async function rsvp_response()
     {
         try {
-            const response = await axios.post(`http://localhost:5000/events/${id}/rsvp`, {}, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/events/${id}/rsvp`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setRsvpMessage('You\'re going! 🎉');

@@ -20,7 +20,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const response = await axios.get("http://localhost:5000/events");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/events`);
         setEvents(response.data);
       } catch (err) {
         console.error(err);

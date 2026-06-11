@@ -68,7 +68,7 @@ function Dashboard() {
                 navigate('/login');
                 return;
             }
-            const response = await axios.get('http://localhost:5000/events/my-events', {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/events/my-events`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setEvents(response.data);
@@ -80,7 +80,7 @@ function Dashboard() {
 
     async function saveEdit(id) {
         try {
-            await axios.put(`http://localhost:5000/events/${id}`, {
+            await axios.put(`${import.meta.env.VITE_API_URL}/events/${id}`, {
                 title: editTitle,
                 description: editDescription,
                 category: editCategory,
@@ -102,7 +102,7 @@ function Dashboard() {
 
     async function deleteEvent(id) {
         try {
-            const response = await axios.delete(`http://localhost:5000/events/${id}`, {
+            const response = await axios.delete(`${import.meta.env.VITE_API_URL}/events/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
 
             });

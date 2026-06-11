@@ -21,7 +21,7 @@ function CreateEvent() {
         
         try {
 
-            const response = await axios.post('http://localhost:5000/events', {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/events`, {
             title: titleName, description: descriptionofEvent, category: categoryOfEvent, location: locationOfEvent, date: dateOfEvent, image_url: imageUrlOfEvent
         }, {
             headers: { Authorization: `Bearer ${token}` }
