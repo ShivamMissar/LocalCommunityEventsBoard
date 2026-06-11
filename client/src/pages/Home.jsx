@@ -76,6 +76,7 @@ export default function Home() {
     return () => document.head.removeChild(style);
   }, []);
 
+  const upcomingEvents = events.filter(event => new Date(event.date) > new Date());
   return (
     <div className="min-h-screen" style={{ background: "#fff5f7" }}>
       <Navbar />
@@ -293,7 +294,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {events.map((event) => (
+            {upcomingEvents.map((event) => (
               <div
                 key={event.id}
                 className="bg-white rounded-3xl shadow-md overflow-hidden cursor-pointer card-hover"
@@ -302,7 +303,6 @@ export default function Home() {
                 <div className="h-24 flex items-center justify-center relative"
                   style={{ background: getCategoryGradient(event.category) }}
                 >
-                  
                   <span className="absolute top-3 right-3 text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">
                     {event.category}
                   </span>
