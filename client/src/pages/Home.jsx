@@ -15,6 +15,10 @@ function getCategoryGradient(category) {
 
 export default function Home() {
   const [events, setEvents] = useState([]);
+  const [searchItem, setSearchItem] = useState('');
+
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -77,6 +81,7 @@ export default function Home() {
   }, []);
 
   const upcomingEvents = events.filter(event => new Date(event.date) > new Date());
+  const filteredEvents = upcomingEvents.filter(event => event.title.toLowerCase().includes(searchItem.toLowerCase()) || event.location.toLowerCase().includes(searchItem.toLowerCase()));
   return (
     <div className="min-h-screen" style={{ background: "#fff5f7" }}>
       <Navbar />
@@ -293,8 +298,16 @@ export default function Home() {
             </button>
           </div>
         ) : (
+          <>
+             <input
+              type="text"
+              value={searchItem}
+              onChange={(e) => setSearchItem(e.target.value)}
+              placeholder="Search by title or location..."
+              className="w-full max-w-md mx-auto block border border-gray-200 rounded-full px-5 py-3 outline-none focus:border-pink-400 transition-colors text-gray-800 mb-8"
+            />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {upcomingEvents.map((event) => (
+            {filteredEvents.map((event) => (
               <div
                 key={event.id}
                 className="bg-white rounded-3xl shadow-md overflow-hidden cursor-pointer card-hover"
@@ -322,8 +335,10 @@ export default function Home() {
               </div>
             ))}
           </div>
+           </>
         )}
       </div>
+
 
       {/* Footer */}
       <div className="text-center py-10 text-gray-400 text-sm border-t border-gray-100">
