@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import logo from '../../public/logo.png'
+import alarm from '../assets/alarm.png';
 
 function Navbar() {
     const navigate = useNavigate();
@@ -82,7 +83,7 @@ function Navbar() {
                                 className="text-2xl cursor-pointer"
                                 onClick={handleBellClick}
                             >
-                                🔔
+                                {alarm}
                             </span>
 
                             {/* Badge always shows if notifications exist */}
