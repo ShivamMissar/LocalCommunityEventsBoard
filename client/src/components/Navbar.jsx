@@ -18,7 +18,7 @@ function Navbar() {
     async function handleBellClick() {
         setShowNotifications(!showNotifications);
 
-        if (!showNotifications && notifications.length > 0) {
+        if (showNotifications && notifications.length > 0) {
             try {
                 await axios.put(`${import.meta.env.VITE_API_URL}/events/notification/mark-read`, {}, {
                     headers: { Authorization: `Bearer ${token}` }
