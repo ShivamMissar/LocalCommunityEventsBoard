@@ -83,7 +83,7 @@ function Navbar() {
                                 className="text-2xl cursor-pointer"
                                 onClick={handleBellClick}
                             >
-                                {alarm}
+                                🔔
                             </span>
 
                             {/* Badge always shows if notifications exist */}
