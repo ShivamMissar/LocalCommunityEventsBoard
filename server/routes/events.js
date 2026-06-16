@@ -15,9 +15,8 @@ router.get('/', async (req, res) => {
         const getEvents = await pool.query(
             'SELECT events.*, COUNT(rsvps.id) as rsvp_count FROM events LEFT JOIN rsvps ON events.id = rsvps.event_id GROUP BY events.id ORDER BY date ASC'
         );
-        if(getEvents.rows.length === 0)
-        {
-            return res.status(404).json({message: 'No events upcoming!'})
+        if (getEvents.rows.length === 0) {
+            return res.status(404).json({ message: 'No events upcoming!' })
         }
         res.status(200).json(getEvents.rows);
     } catch (err) {
@@ -29,14 +28,13 @@ router.get('/', async (req, res) => {
 router.get('/my-events', authenticateToken, async (req, res) => {
     try {
 
-        const userId = req.user.userId; 
+        const userId = req.user.userId;
 
         const getEvents = await pool.query(
             'SELECT * FROM events WHERE user_id = $1 ORDER BY date ASC', [userId]
         );
-        if(getEvents.rows.length === 0)
-        {
-            return res.status(404).json({message: 'No events upcoming!'})
+        if (getEvents.rows.length === 0) {
+            return res.status(404).json({ message: 'No events upcoming!' })
         }
         res.status(200).json(getEvents.rows);
     } catch (err) {
@@ -44,6 +42,31 @@ router.get('/my-events', authenticateToken, async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+
+router.get('/notifications', authenticateToken, async (req, res) => {
+
+    try {
+        const userId = req.user.userId;
+
+        const notifications = await pool.query(
+            'SELECT notifications.*, events.title FROM notifications JOIN events ON notifications.event_id = events.id WHERE notifications.user_id = $1 ORDER BY notifications.created_at DESC',
+            [userId]
+        );
+
+        res.status(200).json(notifications.rows);
+
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+
+
+})
+
+
+
 // get a single event by searching
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
@@ -132,20 +155,61 @@ router.delete('/:id', authenticateToken, async (req, res) => {
 //rsvp to an event 
 
 router.post('/:id/rsvp', authenticateToken, async (req, res) => {
-  try {
-    const { id } = req.params;  // this is the event_id
-    const userId = req.user.userId;
+    try {
+        const { id } = req.params;
+        const userId = req.user.userId;
 
-    const saveRsvp = await pool.query(
-      'INSERT INTO rsvps (user_id, event_id) VALUES ($1, $2) RETURNING *',
-      [userId, id]
-    );
+        console.log('RSVP attempt - event id:', id, 'user id:', userId);
 
-    return res.status(201).json({ message: 'RSVP successful!' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  }
+        const eventResult = await pool.query('SELECT * FROM events WHERE id = $1', [id]);
+        const event = eventResult.rows[0];
+
+        console.log('Event found:', event);
+        console.log('Event creator:', event.user_id, 'RSVP user:', userId);
+        console.log('Should create notification:', event.user_id !== userId);
+
+        const saveRsvp = await pool.query(
+            'INSERT INTO rsvps (user_id, event_id) VALUES ($1, $2) RETURNING *',
+            [userId, id]
+        );
+
+        if (event.user_id !== userId) {
+            console.log('Creating notification...');
+            await pool.query(
+                'INSERT INTO notifications (user_id, event_id, message) VALUES ($1, $2, $3)',
+                [event.user_id, id, `Someone RSVP'd to your event "${event.title}"`]
+            );
+            console.log('Notification created!');
+        } else {
+            console.log('Skipping notification - same user');
+        }
+
+        return res.status(201).json({ message: 'RSVP successful!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+//notification of event when read
+router.put('/notification/mark-read', authenticateToken, async (req, res) => {
+
+
+    try {
+        const userId = req.user.userId;
+
+        const readNotfification = await pool.query(
+            'UPDATE notifications SET is_read = TRUE WHERE user_id = $1 ', [userId]
+        );
+        return res.status(200).json({ message: 'Notifications marked as read' });
+
+    } catch (err) {
+
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+
+
 });
 
 
