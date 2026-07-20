@@ -11,14 +11,9 @@ function getCategoryGradient(category) {
   return 'linear-gradient(135deg, #f953c6, #f9a825)';
 }
 
-
-
 export default function Home() {
   const [events, setEvents] = useState([]);
   const [searchItem, setSearchItem] = useState('');
-
-
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -81,20 +76,51 @@ export default function Home() {
   }, []);
 
   const upcomingEvents = events.filter(event => new Date(event.date) > new Date());
-  const filteredEvents = upcomingEvents.filter(event => event.title.toLowerCase().includes(searchItem.toLowerCase()) || event.location.toLowerCase().includes(searchItem.toLowerCase()));
+  const filteredEvents = upcomingEvents.filter(event =>
+    event.title.toLowerCase().includes(searchItem.toLowerCase()) ||
+    event.location.toLowerCase().includes(searchItem.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen" style={{ background: "#fff5f7" }}>
       <Navbar />
 
       {/* Hero */}
       <div className="relative overflow-hidden animated-gradient" style={{ minHeight: '600px' }}>
-        <div className="absolute top-10 left-10 text-5xl float-1 opacity-30 select-none">🎉</div>
-        <div className="absolute top-20 right-16 text-4xl float-2 opacity-25 select-none">🎵</div>
-        <div className="absolute bottom-16 left-20 text-4xl float-3 opacity-20 select-none">🤝</div>
-        <div className="absolute top-32 left-1/3 text-3xl float-2 opacity-20 select-none">📅</div>
-        <div className="absolute bottom-10 right-24 text-5xl float-1 opacity-25 select-none">🍔</div>
-        <div className="absolute top-12 right-1/3 text-3xl float-3 opacity-20 select-none">⚽</div>
 
+        {/* Floating blobs */}
+        <div className="absolute top-10 left-10 float-1 opacity-20 select-none">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <path d="M40,10 C55,10 70,20 70,40 C70,60 55,70 40,70 C20,70 10,55 10,40 C10,20 25,10 40,10 Z" fill="white"/>
+          </svg>
+        </div>
+        <div className="absolute top-20 right-16 float-2 opacity-15 select-none">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <path d="M60,15 C80,5 105,20 115,45 C125,70 110,100 85,110 C60,120 30,110 15,85 C0,60 10,30 35,20 C45,15 55,18 60,15 Z" fill="white"/>
+          </svg>
+        </div>
+        <div className="absolute bottom-16 left-20 float-3 opacity-20 select-none">
+          <svg width="60" height="60" viewBox="0 0 60 60">
+            <path d="M30,5 C45,5 58,18 58,33 C58,48 45,58 30,58 C12,58 2,45 2,30 C2,15 15,5 30,5 Z" fill="white"/>
+          </svg>
+        </div>
+        <div className="absolute top-32 left-1/3 float-2 opacity-15 select-none">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <path d="M50,10 C70,5 90,25 95,50 C100,75 85,95 60,98 C35,101 10,85 5,60 C0,35 15,10 40,8 C45,7 48,10 50,10 Z" fill="white"/>
+          </svg>
+        </div>
+        <div className="absolute bottom-10 right-24 float-1 opacity-20 select-none">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <path d="M45,8 C62,3 80,18 87,38 C94,58 85,80 65,88 C45,96 20,88 8,68 C-4,48 5,20 25,10 C32,6 40,9 45,8 Z" fill="white"/>
+          </svg>
+        </div>
+        <div className="absolute top-12 right-1/3 float-3 opacity-15 select-none">
+          <svg width="70" height="70" viewBox="0 0 70 70">
+            <path d="M35,5 C50,2 65,15 68,32 C71,49 60,65 43,68 C26,71 8,60 4,43 C0,26 10,8 27,5 C30,4 33,5 35,5 Z" fill="white"/>
+          </svg>
+        </div>
+
+        {/* Hero content */}
         <div className="relative text-center py-32 px-6 flex flex-col items-center justify-center">
           <div className="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-4 py-2 rounded-full mb-6 fade-in-up">
             🌍 Connecting communities everywhere
@@ -263,8 +289,16 @@ export default function Home() {
 
       {/* CTA */}
       <div className="relative overflow-hidden animated-gradient text-center py-24 px-6">
-        <div className="absolute top-8 left-12 text-4xl float-1 opacity-20 select-none">🎉</div>
-        <div className="absolute bottom-8 right-12 text-4xl float-2 opacity-20 select-none">🤝</div>
+        <div className="absolute top-8 left-12 float-1 opacity-20 select-none">
+          <svg width="60" height="60" viewBox="0 0 60 60">
+            <path d="M30,5 C45,5 58,18 58,33 C58,48 45,58 30,58 C12,58 2,45 2,30 C2,15 15,5 30,5 Z" fill="white"/>
+          </svg>
+        </div>
+        <div className="absolute bottom-8 right-12 float-2 opacity-20 select-none">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <path d="M40,10 C55,10 70,20 70,40 C70,60 55,70 40,70 C20,70 10,55 10,40 C10,20 25,10 40,10 Z" fill="white"/>
+          </svg>
+        </div>
         <div className="relative">
           <h2 className="text-5xl font-extrabold text-white mb-4">Ready to get involved?</h2>
           <p className="text-white/80 text-lg mb-10 max-w-lg mx-auto">
@@ -299,46 +333,45 @@ export default function Home() {
           </div>
         ) : (
           <>
-             <input
+            <input
               type="text"
               value={searchItem}
               onChange={(e) => setSearchItem(e.target.value)}
               placeholder="Search by title or location..."
               className="w-full max-w-md mx-auto block border border-gray-200 rounded-full px-5 py-3 outline-none focus:border-pink-400 transition-colors text-gray-800 mb-8"
             />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {filteredEvents.map((event) => (
-              <div
-                key={event.id}
-                className="bg-white rounded-3xl shadow-md overflow-hidden cursor-pointer card-hover"
-                onClick={() => navigate(`/events/${event.id}`)}
-              >
-                <div className="h-24 flex items-center justify-center relative"
-                  style={{ background: getCategoryGradient(event.category) }}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {filteredEvents.map((event) => (
+                <div
+                  key={event.id}
+                  className="bg-white rounded-3xl shadow-md overflow-hidden cursor-pointer card-hover"
+                  onClick={() => navigate(`/events/${event.id}`)}
                 >
-                  <span className="absolute top-3 right-3 text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">
-                    {event.category}
-                  </span>
-                </div>
-                <div className="p-6">
-                  <h2 className="text-lg font-bold text-gray-800 mb-2">{event.title}</h2>
-                  <p className="text-gray-400 text-sm">📍 {event.location}</p>
-                  <p className="text-gray-400 text-sm mt-1">
-                    📅 {new Date(event.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
-                  </p>
-                  <p className="text-gray-500 text-sm mt-3 line-clamp-2">{event.description}</p>
-                  <div className="flex items-center justify-between mt-4">
-                    <p className="text-pink-500 text-sm font-semibold">🎟️ {event.rsvp_count} going</p>
-                    <span className="text-xs text-pink-500 font-semibold">View event →</span>
+                  <div className="h-24 flex items-center justify-center relative"
+                    style={{ background: getCategoryGradient(event.category) }}
+                  >
+                    <span className="absolute top-3 right-3 text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">
+                      {event.category}
+                    </span>
+                  </div>
+                  <div className="p-6">
+                    <h2 className="text-lg font-bold text-gray-800 mb-2">{event.title}</h2>
+                    <p className="text-gray-400 text-sm">📍 {event.location}</p>
+                    <p className="text-gray-400 text-sm mt-1">
+                      📅 {new Date(event.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+                    </p>
+                    <p className="text-gray-500 text-sm mt-3 line-clamp-2">{event.description}</p>
+                    <div className="flex items-center justify-between mt-4">
+                      <p className="text-pink-500 text-sm font-semibold">🎟️ {event.rsvp_count} going</p>
+                      <span className="text-xs text-pink-500 font-semibold">View event →</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-           </>
+              ))}
+            </div>
+          </>
         )}
       </div>
-
 
       {/* Footer */}
       <div className="text-center py-10 text-gray-400 text-sm border-t border-gray-100">
